@@ -6,12 +6,15 @@ import { FaShoppingCart } from 'react-icons/fa'
 
 //nav link
 import { NavLink } from 'react-router-dom'
+import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
+import CategoryComponent from './CategoryComponent';
 
 
 
 
 function NavbarComponent() {
   return (
+    <>
     <nav className='bg-mainBlue h-[100%] py-[10px] lg:py-[0px] lg:h-[100px] w-full flex items-center '>
         <div className='container mx-auto flex flex-col lg:flex-row justify-between items-center gap-[20px] '>
             <img src={logo} alt="logo" />
@@ -25,8 +28,13 @@ function NavbarComponent() {
             {/* general info */}
             <div className='flex gap-[20px] text-textWhite'>
                 <div className='flex items-center gap-[10px]'>
-                    <FaUser size={24}/>
-                    <p>Clerk</p> 
+                    <SignedOut>
+                        <SignInButton />
+                    </SignedOut>
+
+                    <SignedIn>
+                        <UserButton />
+                    </SignedIn>
                 </div>
                 <div className='flex items-center gap-[10px]'>
                     <FaHeart size={24}/>
@@ -44,6 +52,9 @@ function NavbarComponent() {
 
         </div>
     </nav>
+    <CategoryComponent/>
+    </>
+    
   )
 }
 
