@@ -7,11 +7,14 @@ import { BrowserRouter, RouterProvider, createBrowserRouter } from 'react-router
 //pages
 import HomePage from './pages/HomePage.jsx';
 import ErrorPage from './pages/ErrorPage.jsx';
+import SingleProductPage from './pages/SingleProductPage.jsx'
 
 //clerk
 import { ClerkProvider } from '@clerk/clerk-react'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
+import CartPage from './pages/CartPage.jsx'
+
 
 // Import your publishable key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
@@ -29,6 +32,14 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <HomePage />
+      },
+      {
+        path: '/singleProduct/:id',
+        element: <SingleProductPage />
+      },
+      {
+        path: '/cart',
+        element: <CartPage />
       }
     ]
   },
