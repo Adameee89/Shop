@@ -10,11 +10,17 @@ import { FaCheck } from 'react-icons/fa';
 import { ImCross } from 'react-icons/im';
 import { FaHeart } from 'react-icons/fa';
 
+//redux
+import { useDispatch } from 'react-redux';
+import { saveInCartAction } from '../store/cartSlice';
+
 function SingleProductPage() {
     const [currentImage, setCurrentImage] = useState(0);
     const [singleProduct, setSingleProduct] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const {id} = useParams();
+
+    const dispatch = useDispatch()
 
 
 
@@ -34,6 +40,12 @@ function SingleProductPage() {
 
     }
 
+
+    //to save in redux cart
+
+    function handleAddCart(){
+        dispatch(saveInCartAction(singleProduct))
+    }
   return (
     <div className='px-[20px]'>
         {isLoading ? <div className=' container mx-auto flex flex-col md:flex-row mt-[50px] items-center gap-[20px]'>
@@ -77,7 +89,9 @@ function SingleProductPage() {
 
                 <div className='mt-[40px] flex gap-[20px]'>
                     <Link to='/cart' className='bg-mainBlue text-textWhite px-[16px] py-[8px] rounded-xl hover:bg-mainOrange transition-all
-                     duration-300 ease-in-out flex items-center justify-center'>Add Cart</Link>
+                     duration-300 ease-in-out flex items-center justify-center'
+                     onClick={handleAddCart}
+                     >Add Cart</Link>
                     <Link to='/' className='bg-mainBlue text-textWhite px-[16px] py-[8px] rounded-xl hover:bg-mainOrange transition-all
                      duration-300 ease-in-out flex items-center justify-center' ><FaHeart size={25} /></Link>
                 </div>
