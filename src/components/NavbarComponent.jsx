@@ -11,73 +11,61 @@ import CategoryComponent from './CategoryComponent';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
-
-
-
 function NavbarComponent() {
     const [totalItem, setTotalItem] = useState(0);
     const {totalProduct} = useSelector(state => state.cartStore);
     const {favoriteTotal} = useSelector(state => state.favoriteStore);
     
-
     useEffect(() => {
-        if(localStorage.hasOwnProperty('total_item'));{
+        if(localStorage.hasOwnProperty('total_item')) {
             setTotalItem(localStorage.getItem('total_item'));
         }
-        //fix me this is not working totalProduct after refresh stay the same
-        
     }, [totalProduct]);
 
+    return (
+        <>
+        <nav className='bg-mainBlue py-3 lg:py-0 lg:h-24 w-full flex items-center shadow-md'>
+            <div className='container mx-auto flex flex-col lg:flex-row justify-between items-center gap-5 lg:gap-0 px-4'>
+                <Link to='/'>
+                    <img src={logo} alt="logo" className='h-12 lg:h-16' />
+                </Link>
 
-  return (
-    <>
-    <nav className='bg-mainBlue h-[100%] py-[10px] lg:py-[0px] lg:h-[100px] w-full flex items-center '>
-        <div className='container mx-auto flex flex-col lg:flex-row justify-between items-center gap-[20px] '>
-            <Link to='/'>
-                <img src={logo} alt="logo" />
-            </Link>
-
-            {/* Search Component */}
-            <div className='bg-white rounded-[20px] flex'>
-                <input type="text" placeholder='Search products...' className='rounded-l-[20px] px-[25px] py-[17px] outline-none' />
-                <button className='rounded-r-[20px] px-[25px] py-[17px] bg-mainOrange text-textWhite'>Search</button>
-            </div>
-
-            {/* general info */}
-            <div className='flex gap-[20px] text-textWhite'>
-                <div className='flex items-center gap-[10px]'>
-                    <SignedOut>
-                        <SignInButton />
-                    </SignedOut>
-
-                    <SignedIn>
-                        <UserButton />
-                    </SignedIn>
+                {/* Search Component */}
+                <div className='flex items-center bg-white rounded-full shadow-lg'>
+                    <input type="text" placeholder='Search products...' className='rounded-l-full px-6 py-3 outline-none flex-grow' />
+                    <button className='rounded-r-full px-6 py-3 bg-mainOrange text-textWhite hover:bg-orange-600 transition'>Search</button>
                 </div>
-                <div className='flex items-center gap-[10px]'>
-                    <FaHeart size={24}/>
-                    <span className='w-[25px] h-[25px] bg-mainOrange rounded-full flex justify-center items-center text-textWhite text-[12px]'>
-                        {favoriteTotal}
-                    </span>
-                    <NavLink to="/favorite">Favorite</NavLink>
-                    
-                </div>
-                <div className='flex items-center gap-[10px]'>
-                    <FaShoppingCart size={24}/>
-                    <span className='w-[25px] h-[25px] bg-mainOrange rounded-full flex justify-center items-center text-textWhite text-[12px]'>
-                        {totalItem}
-                    </span>
-                    <NavLink to="/cart">Cart</NavLink>
-                    
+
+                {/* General Info */}
+                <div className='flex gap-6 text-textWhite'>
+                    <div className='flex items-center gap-2'>
+                        <SignedOut>
+                            <SignInButton />
+                        </SignedOut>
+                        <SignedIn>
+                            <UserButton />
+                        </SignedIn>
+                    </div>
+                    <div className='flex items-center gap-2'>
+                        <FaHeart size={24} />
+                        <span className='w-6 h-6 bg-mainOrange rounded-full flex justify-center items-center text-textWhite text-xs'>
+                            {favoriteTotal}
+                        </span>
+                        <NavLink to="/favorite" className='hover:underline'>Favorite</NavLink>
+                    </div>
+                    <div className='flex items-center gap-2'>
+                        <FaShoppingCart size={24} />
+                        <span className='w-6 h-6 bg-mainOrange rounded-full flex justify-center items-center text-textWhite text-xs'>
+                            {totalItem}
+                        </span>
+                        <NavLink to="/cart" className='hover:underline'>Cart</NavLink>
+                    </div>
                 </div>
             </div>
-
-        </div>
-    </nav>
-    <CategoryComponent/>
-    </>
-    
-  )
+        </nav>
+        <CategoryComponent />
+        </>
+    )
 }
 
 export default NavbarComponent
