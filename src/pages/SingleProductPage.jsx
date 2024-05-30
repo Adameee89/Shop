@@ -11,17 +11,18 @@ import { ImCross } from 'react-icons/im';
 import { FaHeart } from 'react-icons/fa';
 
 //redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { saveInCartAction } from '../store/cartSlice';
+import { updateFavoriteAction } from '../store/favoriteSlice';
 
 function SingleProductPage() {
     const [currentImage, setCurrentImage] = useState(0);
     const [singleProduct, setSingleProduct] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [favoriteIdIcon, setFavoriteIdIcon] = useState(null)
+    const {allFavorite} = useSelector(state => state.favoriteStore)
     const {id} = useParams();
-
     const dispatch = useDispatch()
-
 
 
     useEffect(() => {
@@ -33,6 +34,24 @@ function SingleProductPage() {
                .catch(err => console.log(err))
     }, [])
 
+    useEffect(() => {
+        // fixme kad imamo vise proizvoda u favoritima ne radi da obrise puno srce
+        if (allFavorite.length > 0) {
+            allFavorite.find((item) => {
+                if (item.id === parseInt(id)) {
+                    setFavoriteIdIcon(item.id) 
+                    return;
+                } 
+            })
+
+        }else{
+            setFavoriteIdIcon(null)
+        }
+        
+
+    }, [allFavorite])
+
+
 
     //change images
     function handleImage (index){
@@ -40,9 +59,7 @@ function SingleProductPage() {
 
     }
 
-
     //to save in redux cart
-
     function handleAddCart(){
         dispatch(saveInCartAction(singleProduct))
     }
@@ -50,7 +67,7 @@ function SingleProductPage() {
     <div className='px-[20px]'>
         {isLoading ? <div className=' container mx-auto flex flex-col md:flex-row mt-[50px] items-center gap-[20px]'>
             {/* left */}
-            <div className='w-full md:w-[50%] flex flex-col gap-[20px]'>
+            <div className='w-full md:w-[50%] flex flex-col gap-[20px] mb-[50px]'>
                 <img src={singleProduct.images[currentImage]} alt={singleProduct.title} className='w-full h-[400px] object-cover'/>
 
                 {/*  small images */  }
@@ -87,13 +104,21 @@ function SingleProductPage() {
                         <span className='flex items-center gap-[5px] text-red-500'><ImCross />Out of Stock</span> }
                 </p>
 
-                <div className='mt-[40px] flex gap-[20px]'>
+                <div className='mt-[40px] flex gap-[20px] mb-[50px]'>
                     <Link to='/cart' className='bg-mainBlue text-textWhite px-[16px] py-[8px] rounded-xl hover:bg-mainOrange transition-all
-                     duration-300 ease-in-out flex items-center justify-center'
+                     duration-300 ease-in-out flex items-center justify-center sm:mb-[50px] '
                      onClick={handleAddCart}
                      >Add Cart</Link>
-                    <Link to='/' className='bg-mainBlue text-textWhite px-[16px] py-[8px] rounded-xl hover:bg-mainOrange transition-all
-                     duration-300 ease-in-out flex items-center justify-center' ><FaHeart size={25} /></Link>
+                    <Link 
+                    
+                    className='bg-mainBlue text-textWhite px-[16px] py-[8px] rounded-xl hover:bg-mainOrange transition-all
+                     duration-300 ease-in-out flex items-center justify-center sm:mb-[50px]'
+                     onClick={() => dispatch(updateFavoriteAction(singleProduct))}
+                     >
+                     {favoriteIdIcon === parseInt(id) ? <FaHeart size={25} color='red' /> : <FaHeart size={25} />}
+                     
+                     
+                     </Link>
                 </div>
             </div>
         </div> : <LoadingComponent />}

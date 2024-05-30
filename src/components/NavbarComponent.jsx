@@ -9,13 +9,26 @@ import { Link, NavLink } from 'react-router-dom'
 import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
 import CategoryComponent from './CategoryComponent';
 import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 
 
 
 function NavbarComponent() {
+    const [totalItem, setTotalItem] = useState(0);
+    const {totalProduct} = useSelector(state => state.cartStore);
+    const {favoriteTotal} = useSelector(state => state.favoriteStore);
+    
 
-    const {totalProduct} = useSelector(state => state.cartStore)
+    useEffect(() => {
+        if(localStorage.hasOwnProperty('total_item'));{
+            setTotalItem(localStorage.getItem('total_item'));
+        }
+        //fix me this is not working totalProduct after refresh stay the same
+        
+    }, [totalProduct]);
+
+
   return (
     <>
     <nav className='bg-mainBlue h-[100%] py-[10px] lg:py-[0px] lg:h-[100px] w-full flex items-center '>
@@ -43,13 +56,17 @@ function NavbarComponent() {
                 </div>
                 <div className='flex items-center gap-[10px]'>
                     <FaHeart size={24}/>
-                    <span className='w-[25px] h-[25px] bg-mainOrange rounded-full flex justify-center items-center text-textWhite text-[12px]'>0</span>
+                    <span className='w-[25px] h-[25px] bg-mainOrange rounded-full flex justify-center items-center text-textWhite text-[12px]'>
+                        {favoriteTotal}
+                    </span>
                     <NavLink to="/favorite">Favorite</NavLink>
                     
                 </div>
                 <div className='flex items-center gap-[10px]'>
                     <FaShoppingCart size={24}/>
-                    <span className='w-[25px] h-[25px] bg-mainOrange rounded-full flex justify-center items-center text-textWhite text-[12px]'>{totalProduct}</span>
+                    <span className='w-[25px] h-[25px] bg-mainOrange rounded-full flex justify-center items-center text-textWhite text-[12px]'>
+                        {totalItem}
+                    </span>
                     <NavLink to="/cart">Cart</NavLink>
                     
                 </div>
