@@ -15,6 +15,7 @@ import { Provider } from 'react-redux'
 import store from './store/store.js'
 import CartPage from './pages/CartPage.jsx'
 import FavoritePage from './pages/FavoritePage.jsx'
+import AuthGarding from './utils/AuthGuarding.jsx'
 
 
 // Import your publishable key
@@ -36,7 +37,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/singleProduct/:id',
-        element: <SingleProductPage />
+        element: <AuthGarding><SingleProductPage /></AuthGarding>
       },
       {
         path: '/cart',

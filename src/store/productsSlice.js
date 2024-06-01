@@ -5,7 +5,9 @@ const productsSlice =  createSlice({
     initialState: {
         allCategory: [],
         isLoading: false,
-        allProducts: []
+        allProducts: [],
+        searchTitle: '',
+        selectCategory: ''
     },  
     reducers: {
         saveAllCategoryAction(state, action) {
@@ -15,10 +17,16 @@ const productsSlice =  createSlice({
             state.allProducts = action.payload;
             state.isLoading = true
             
+        },
+        setSearchTitleAction: (state, action) => {
+            state.searchTitle = action.payload
+        },
+        setCategoryAction: (state, action) => {
+            state.selectCategory = action.payload
         }
     }
 })
 
 
-export const {saveAllCategoryAction, saveAllProductsAction} = productsSlice.actions;
+export const {saveAllCategoryAction, saveAllProductsAction, setSearchTitleAction, setCategoryAction} = productsSlice.actions;
 export default productsSlice.reducer;
