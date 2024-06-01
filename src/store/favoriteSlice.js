@@ -4,11 +4,11 @@ const favoriteSlice = createSlice({
     name: 'favorite',
     initialState: {
         allFavorite: [],
-        favoriteTotal: 0
+        favoriteTotal: 0,
     },
     reducers: {
         updateFavoriteAction: (state, action) => {
-            let copyFavorite = [...state. allFavorite];
+            let copyFavorite = [...state.allFavorite];
 
             //LOGIKAAAA
             let findIndex = null;
@@ -21,9 +21,11 @@ const favoriteSlice = createSlice({
             })
 
 
+
+
             //dodaj novi proizvod ili povecaj kolicinu
             if (findIndex === null) {
-                copyFavorite.push(action.payload);
+                copyFavorite.push({...action.payload, favoriteActive: true});
                 state.favoriteTotal++;
             } else {
                 copyFavorite.splice(findIndex, 1);
